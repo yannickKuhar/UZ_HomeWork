@@ -46,11 +46,14 @@ B = A;
 Bd = double(B);
 [ hb, wb, db ] = size(B);
 
-% B_grey = uint8((Bd(:,:,1) + Bd(:,:,2) + Bd(:,:,3)) / 3.0);
-B_grey = uint8((round(Bd(:,:,1) * 0.2126) + (round(Bd(:,:,1) * 0.7152) + (round(Bd(:,:,1) * 0.0722)) / 3.0)));
+B_grey = uint8((Bd(:,:,1) + Bd(:,:,2) + Bd(:,:,3)) / 3.0);
+B_grey2 = uint8(round(B_grey * (63 / 255)));
 
-figure(7); clf; imagesc(B_grey);
-figure(8); clf; imshow(B_grey);
+% figure(7); clf; imagesc(B_grey);
+% figure(8); clf; imshow(B_grey);
+
+figure(9); clf; imshow(B_grey2);
+figure(10); clf; imagesc(B_grey2);
 
 % Razlaga iz lastnega opazanja:
 % imgshow() kaze sliko v crno-belem medtem ko imagesc() v modro-rumenem
@@ -59,8 +62,7 @@ figure(8); clf; imshow(B_grey);
 % Razlaga iz dokumentacije:
 % imagesec() ~ displays the data in array C as an image that uses the full range of
 % colors in the colormap.
+% imshow() ~ displays image I in a preeset figure.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
