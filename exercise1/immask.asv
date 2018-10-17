@@ -1,0 +1,14 @@
+function I = immask(I, B)
+
+M = rgb2gray(I);
+SE = ones(20);
+
+M = imerode(imdilate(M, SE), SE);
+M = M > otsu(M); M = uint8(M);
+% codefix: swap the > to a < for 3.(d).
+
+I(:,:,1) = I(:,:,1) .* M(:,:);
+I(:,:,2) = I(:,:,2) .* M(:,:);
+I(:,:,3) = I(:,:,3) .* M(:,:);
+
+end

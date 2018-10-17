@@ -64,5 +64,3 @@ figure(10); clf; imagesc(B_grey2);
 % colors in the colormap.
 % imshow() ~ displays image I in a preeset figure.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-

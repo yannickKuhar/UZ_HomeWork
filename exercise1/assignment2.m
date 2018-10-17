@@ -71,6 +71,8 @@ myh3 = myhist(C, nbins);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % (e) My pictures.
+
+%{
 brez = imread('brez_senc.jpg');
 notranji = imread('notranji_sencnik.jpg');
 zunanji = imread('zunanji_sencnik.jpg');
@@ -105,5 +107,15 @@ subplot(2, 3, 3); bar(h3);
 subplot(2, 3, 4); bar(myh1);
 subplot(2, 3, 5); bar(myh2);
 subplot(2, 3, 6); bar(myh3);
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% (f)
+
+A = rgb2gray(imread('bird.jpg'));
+M = A > otsu(A); 
+figure(1); clf;
+imshow(M);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
