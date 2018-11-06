@@ -115,7 +115,6 @@ y3 = vals(3)
 y4 = vals(4)
 y5 = vals(5)
 
-% title('Unsorted');
 figure(1); subplot(1, 2, 1);
 plot(distances)
 hold on
