@@ -92,6 +92,7 @@ figure(1); subplot(2, 6, 12); bar(histograms(idxs(6),:)); title(['hellinger= ' n
 %}
 
 % (g)
+%{
 [histograms, files] = load_histogram_database('images', 8);
 
 distances = zeros(length(files), 1);
@@ -154,6 +155,61 @@ plot(x4, y4, 'ro')
 hold on
 plot(x5, y5, 'ro')
 title('Sorted');
+%}
+% 1.(h)
 
+[histograms, files] = load_histogram_database('images', 8);
+
+res = sum(histograms);
+
+figure(1); subplot(1,2,1); bar(res);
+
+% Bin 0 dominates aka color black.
+
+utezi = zeros(length(res), 1);
+
+utezi(:) = exp(-20 * res(:));
+utezi = utezi';
+
+figure(1); subplot(1,2,2); bar(utezi);
+
+for i=1:size(histograms, 1)
+    histograms(i,:) =  histograms(i,:) .* utezi;
+    histograms(i,:) =  histograms(i,:)/ sum(histograms(i,:));
+end
+
+% A = imread(files{20});
+% hist = myhist3(A, 8);
+% hist1d = reshape(hist, 1, numel(hist));
+
+distances = zeros(length(files), 1);
+
+for i = 1:length(files)
+    dist = compare_histograms(histograms(20,:), histograms(i,:), 'hellinger');
+    distances(i) = dist;
+end
+
+[vals,idxs] = sort(distances);
+
+A = imread(files{idxs(1)});
+B = imread(files{idxs(2)});
+C = imread(files{idxs(3)});
+D = imread(files{idxs(4)});
+E = imread(files{idxs(5)});
+F = imread(files{idxs(6)});
+ 
+figure(2); subplot(2, 6, 1); imshow(A);
+figure(2); subplot(2, 6, 2); imshow(B); 
+figure(2); subplot(2, 6, 3); imshow(C); 
+figure(2); subplot(2, 6, 4); imshow(D); 
+figure(2); subplot(2, 6, 5); imshow(E); 
+figure(2); subplot(2, 6, 6); imshow(F);
+
+figure(2); subplot(2, 6, 7); bar(histograms(idxs(1),:)); title(['hellinger= ' num2str(vals(1))]);
+figure(2); subplot(2, 6, 8); bar(histograms(idxs(2),:)); title(['hellinger= ' num2str(vals(2))]);
+figure(2); subplot(2, 6, 9); bar(histograms(idxs(3),:)); title(['hellinger= ' num2str(vals(3))]);
+figure(2); subplot(2, 6, 10); bar(histograms(idxs(4),:)); title(['hellinger= ' num2str(vals(4))]);
+figure(2); subplot(2, 6, 11); bar(histograms(idxs(5),:)); title(['hellinger= ' num2str(vals(5))]);
+figure(2); subplot(2, 6, 12); bar(histograms(idxs(6),:)); title(['hellinger= ' num2str(vals(6))]);
 
 
