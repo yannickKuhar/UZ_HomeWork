@@ -26,8 +26,7 @@
 % compare4 = compare_histograms(hist1, hist2, 'intersect');
 
 % (e)
-%{ 
-%TODO: Odgovori na vpr.
+%{
 A = imread('images/object_01_1.png');
 B = imread('images/object_02_1.png');
 C = imread('images/object_03_1.png');
@@ -50,6 +49,24 @@ figure(1); subplot(2, 3, 3); imshow(C);
 figure(1); subplot(2, 3, 4); bar(histA1d); title(['l2(h1,h1)= ' num2str(dist1in1)]);
 figure(1); subplot(2, 3, 5); bar(histB1d); title(['l2(h1,h2)= ' num2str(dist1in2)]);
 figure(1); subplot(2, 3, 6); bar(histC1d); title(['l2(h1,h3)= ' num2str(dist1in3)]);
+
+%TODO: Odgovori na vpr.
+%odg: Nbolj je poudarjen bin 0 orej crna barva.
+
+% d(h1,h2) = 0.6574
+% d(h1,h3) = 0.3616
+dist1in4 = compare_histograms( histA1d, histB1d, 'chi2' );
+dist1in5 = compare_histograms( histA1d, histC1d, 'chi2' );
+
+% d(h1,h2) = 0.5745
+% d(h1,h3) = 0.3207
+dist1in6 = compare_histograms( histA1d, histB1d, 'hellinger' );
+dist1in7 = compare_histograms( histA1d, histC1d, 'hellinger' );
+
+% d(h1,h2) = 0.6007
+% d(h1,h3) = 0.1970
+dist1in8 = compare_histograms( histA1d, histB1d, 'intersect' );
+dist1in9 = compare_histograms( histA1d, histC1d, 'intersect' );
 %}
 
 % (f)
@@ -157,7 +174,7 @@ plot(x5, y5, 'ro')
 title('Sorted');
 %}
 % 1.(h)
-
+%{
 [histograms, files] = load_histogram_database('images', 8);
 
 res = sum(histograms);
@@ -211,5 +228,5 @@ figure(2); subplot(2, 6, 9); bar(histograms(idxs(3),:)); title(['hellinger= ' nu
 figure(2); subplot(2, 6, 10); bar(histograms(idxs(4),:)); title(['hellinger= ' num2str(vals(4))]);
 figure(2); subplot(2, 6, 11); bar(histograms(idxs(5),:)); title(['hellinger= ' num2str(vals(5))]);
 figure(2); subplot(2, 6, 12); bar(histograms(idxs(6),:)); title(['hellinger= ' num2str(vals(6))]);
-
+%}
 
