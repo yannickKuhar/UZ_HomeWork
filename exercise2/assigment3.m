@@ -22,14 +22,17 @@ axis equal; axis tight; title('Filtered');
 %}
 
 % 3.(b)
-
+%{
 two = zeros(3,3); two(2,2) = 2;
 minis = ones(3, 3) .* 1/9;
 f = two - minis;
 
 A = imread('museum.jpg');
 sharpening = conv2(rgb2gray(A), f, 'same');
-% sharpening = conv2(sharpening, f', 'same');
+sharpening = conv2(sharpening, f', 'same');
 
 figure(1); subplot(1, 2, 1); imshow(rgb2gray(A));
-figure(1); subplot(1, 2, 2); imshow(sharpening);
+figure(1); subplot(1, 2, 2); imshow(uint8(sharpening));
+%}
+
+% 3.(c)
