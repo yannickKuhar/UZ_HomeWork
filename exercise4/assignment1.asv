@@ -1,0 +1,7 @@
+% a
+I = rgb2gray(imread('test_points.png'));
+I = double(I);
+
+Ih = hessian_points(I, 3);
+
+figure(1); clf; imshow();
