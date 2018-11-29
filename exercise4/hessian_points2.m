@@ -2,29 +2,25 @@ function [px, py] = hessian_points2(I, sigma, t)
     
     Ig = I;
     
-    [Imag, Idir] = gradient_magnitude(Ig, sigma);
-    Imax = nonmaxima_suppression_line(Imag, Idir);
+    [Ixx, Iyy, Ixy] = image_derivatives2(Ig, sigma);
+    Ihess = sigma ^ 4 .* (Ixx .* Iyy - Ixy.^ 2);
+    % Ihess =(Ixx .* Iyy - Ixy.^ 2);
+    
+    Ihess = nonmaxima_suppression_box(Ihess, t);
+    
+    [xig, yig] = size(Ig);
+    [xh, yh] = size(Ihess);
+    
+    offx = (xh - xig) / 2;
+    offy = (yh - yig) / 2;
+    
+    Ihess = Ihess(offx:xh-offx-1, offy:yh-offy-1);
+    
+    % figure(2); clf; imagesc(Ihess); colormap jet;
+    
+    index = find(Ihess > t);
+    [px, py] = ind2sub(size(Ihess), index);
    
-    % I_hess = hessian_points(I, sigma);
-    % Ihess = imhmax(I_hess,t);
-    
-    Imax = uint8(Imax);
-    Ihess = Imax > t;
-    
-    px = []; 
-    py = [];
-    
-    [m, n] = size(Ihess);
-    
-    for i=1:m
-        for j=1:n
-            if(Ihess(i, j) == 1)
-                px = [px, i];
-                py = [py, j];
-            end
-        end
-    end
-    
     
     
     
