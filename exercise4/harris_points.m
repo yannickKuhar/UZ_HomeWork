@@ -24,7 +24,7 @@ function [px, py] = harris_points( I, sigma, t)
     for i = 1:h
         for j = 1:w
             
-            C = sigma ^ 2 * [k11(i, j) k12(i, j); k12(i, j) k22(i, j)];
+            C = sigma ^ 2 .* [k11(i, j) k12(i, j); k12(i, j) k22(i, j)];
             
             detC = det(C);
             traceC = trace(C);
@@ -35,6 +35,9 @@ function [px, py] = harris_points( I, sigma, t)
         end
     end
     
+    vharr = rezultat;
+    rezultat = nonmaxima_suppression_box(rezultat, t);
+    
     [xig, yig] = size(Ig);
     [xr, yr] = size(rezultat);
     
@@ -42,10 +45,11 @@ function [px, py] = harris_points( I, sigma, t)
     offy = (yr - yig) / 2;
     
     rezultat = rezultat(offx:xr-offx-1, offy:yr-offy-1);
+    vharr = vharr(offx:xr-offx-1, offy:yr-offy-1);
     
-    figure(1); subplot(2, 3, sigma / 3); colormap(gray); imagesc(rezultat); 
+    figure(1); subplot(2, 3, sigma / 3); colormap(gray); imagesc(vharr); 
     
-    rezultat = nonmaxima_suppression_box(rezultat, t);
+    % figure(2); clf; colormap(gray); imagesc(rezultat); 
     
     index = find(rezultat(:) > t);
     [px, py] = ind2sub(size(rezultat), index);
