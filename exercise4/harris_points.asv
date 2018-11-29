@@ -29,11 +29,13 @@ function [px, py] = harris_points( I, sigma, t)
             detC = det(C);
             traceC = trace(C);
             
-            vmesni_rezultat = detC - alpha * traceC ^ 2;
+            vmesni_rezultat = detC - alpha * traceC .^ 2;
             
             rezultat(i, j) = vmesni_rezultat;
         end
     end
+    
+    
     
     [xig, yig] = size(Ig);
     [xr, yr] = size(rezultat);
@@ -43,10 +45,10 @@ function [px, py] = harris_points( I, sigma, t)
     
     rezultat = rezultat(offx:xr-offx-1, offy:yr-offy-1);
     
-    figure(1); subplot(2, 3, sigma / 3); colormap(gray); imagesc(rezultat); 
+    figure(1); subplot(2, 3, 1); colormap(gray); imagesc(rezultat); 
     
     rezultat = nonmaxima_suppression_box(rezultat, t);
     
-    index = find(rezultat(:) > t);
+    index = find(rezultat > t);
     [px, py] = ind2sub(size(rezultat), index);
     
