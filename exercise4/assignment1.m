@@ -4,7 +4,6 @@
 I = rgb2gray(imread('graf/graf1.png'));
 I = double(I);
 
-%{
 Ih1 = hessian_points(I, 3);
 Ih2 = hessian_points(I, 6);
 Ih3 = hessian_points(I, 9);
@@ -30,12 +29,11 @@ Ip2 = insertMarker(Ip2, pos2,'x','color','red', 'size',5);
 Ip3 = insertMarker(Ip3, pos3,'x','color','red', 'size',5);
 
 figure(1); subplot(2, 3, 1); imagesc(Ih1); colormap gray; title('Hessian, sigma = 3'); 
-figure(1); subplot(2, 3, 2); imagesc(Ih2); colormap gray; title('Hessian, sigma = 3');
-figure(1); subplot(2, 3, 3); imagesc(Ih3); colormap gray; title('Hessian, sigma = 3');
+figure(1); subplot(2, 3, 2); imagesc(Ih2); colormap gray; title('Hessian, sigma = 6');
+figure(1); subplot(2, 3, 3); imagesc(Ih3); colormap gray; title('Hessian, sigma = 9');
 figure(1); subplot(2, 3, 4); imshow(Ip1); colormap gray; 
 figure(1); subplot(2, 3, 5); imshow(Ip2); colormap gray; 
 figure(1); subplot(2, 3, 6); imshow(Ip3); colormap gray; 
-%}
 
 % b
 

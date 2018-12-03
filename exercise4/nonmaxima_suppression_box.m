@@ -1,6 +1,7 @@
 function Imax = nonmaxima_suppression_box(I, t)
     x = I;
-    y = x;
+    [h, w] = size(I);
+    y = zeros(h, w);
     
     global_max = max(I(:));
     global_min = min(I(:));
@@ -26,5 +27,7 @@ function Imax = nonmaxima_suppression_box(I, t)
             
         end
     end
+    
+    % figure(1); clf; imagesc(y);
     
     Imax = y;
