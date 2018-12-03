@@ -1,9 +1,7 @@
 function H = estimate_homography(px1, py1, px2, py2)
     
     if length(px1) < length(px2)
-        n = length(px1);
-    else
-        n = length(px2);
+        n = length(px1)
     end
     
     col1 = [];
