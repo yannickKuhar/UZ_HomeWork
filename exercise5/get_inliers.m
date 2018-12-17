@@ -1,10 +1,11 @@
-function [x1in x2in] = get_inliers(F, x1, x2, eps)
-    [F, e1, e2] = fundamental_matrix(x1, x2);
+function [x1in, x2in] = get_inliers(F, x1, x2, eps)
     
     x1in = [];
     x2in = [];
     
-    for i = 1:length(x1)
+    [h, w] = size(x1);
+    
+    for i = 1:h
         
         [d, d1, d2] = reprojection_error(x1(i,:)', x2(i,:)', F);
  
