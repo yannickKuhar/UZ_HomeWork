@@ -8,7 +8,7 @@ function [mi, Ub] = get_eigenvectors(D)
     X = D;
 
     % (2.) calculate mi
-    mi = mean(X')
+    mi = mean(X');
 
     % (3.) Center data
     Xd = X;
