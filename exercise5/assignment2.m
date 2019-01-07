@@ -14,7 +14,7 @@ num_ones = ones(length(hp), 1);
 x1 = [hp(:, 1) hp(:, 2) num_ones];
 x2 = [hp(:, 3) hp(:, 4) num_ones];
 
-% F = fundamental_matrix(x1, x2);
+F = fundamental_matrix(x1, x2);
 
 house1 = rgb2gray(imread('epipolar/house1.jpg'));
 house2 = rgb2gray(imread('epipolar/house2.jpg'));
@@ -45,8 +45,9 @@ dh = mean(d)
 ds = reprojection_error([85 233 1]', [67, 219 1]', F)
 %}
 
+
 % e
-[F, e1, e2, x1t, x2t] = ransac_fundamental(x1, x2, 2, 100, 119);
+[F, e1, e2, x1t, x2t] = ransac_fundamental(x1, x2, 5, 100, 119);
 
 all1 = [hp(:, 1), hp(:, 2)];
 all2 = [hp(:, 3), hp(:, 4)];
@@ -69,9 +70,12 @@ house2 = insertMarker(house2, p2, 'o','color','green', 'size', 2);
 
 [h, w] = size(house2);
 
-figure(1); subplot(1, 2, 1); imshow(house1);
+inl = length(x2t) / length(all2);
+[d, ~, ~] = reprojection_error(x1t', x2t', F);
+err = mean(d)
 
+figure(1); subplot(1, 2, 1); imshow(house1);
 figure(1); subplot(1, 2, 2); imshow(house2);
 hold on;
 draw_line(F * [p1(1), p1(2), 1]', w, h, 'g');
-hold off;
+hold off; title("inliers: " + inl + "Error: " + err);

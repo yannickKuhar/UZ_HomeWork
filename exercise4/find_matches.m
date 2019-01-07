@@ -11,6 +11,7 @@ function M = find_matches(I1, I2)
 D1 = descriptors_maglap(I1, px1, py1, 41, 3, 16);
 D2 = descriptors_maglap(I1, px2, py2, 41, 3, 16);
 
+%{
 [hd1, wd1] = size(D1);
 [hd2, wd2] = size(D2);
 
@@ -31,12 +32,14 @@ end
 
 D1(id1, :) = [];
 D2(id2, :) = [];
+%}
 
 [indices, distances] = find_correspondences(D1, D2);
 
 px2=px2(indices);
 py2=py2(indices);
 
+%{
 len = min(size(px1, 1), size(px2, 1));
 M1 = [px1(1:len), py1(1:len), px2(1:len), py2(1:len), distances(1:len)'];
 
@@ -47,6 +50,7 @@ py2=py2(indices);
 
 len = min(size(px1, 1), size(px2, 1));
 M2= [px1(1:len), py1(1:len), px2(1:len), py2(1:len), distances(1:len)'];
+%}
 
 M = [];
 

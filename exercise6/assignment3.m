@@ -57,33 +57,25 @@ tmp(4074) = 0;
 % en pixel se spremeni v popolnoma crnega
 D1 = reshape(tmp, [96, 84]);
 
-%%% Zdnji image %%%
-% D3 = reshape(D(:, 1), [96, 84]);
-% D3 =  double(D3);
-% 
-% [mi, Ub] = get_eigenvectors(D3);
-% Ub(1,1);
-% Dtmp = Ub;
-% 
-% [h, w] = size(D3);
-% 
-% xq = [];
-% 
-% size(Ub)
-% size(Dtmp(i, :))
-% 
-% % (7.)
-% for i = 1:w
-%     tmp =(Ub * Dtmp(i, :)) + mi';
-%     xq = [xq; tmp'];
-% end
-% 
-% xq = xq';
-% D3 = uint8(xq);
-%%%%%%%%%%%%%%%%%%%
+D = deskriptor_nabora(1);
+[mi, Ub] = get_eigenvectors(D);
 
-% figure(2); subplot(1, 3, 1); imshow(D0);
-% figure(2); subplot(1, 3, 2); imshow(D1);
-% figure(2); subplot(1, 3, 3); imshow(Dtmp);
+D3 = D(:, 1);
+D3 = double(D3);
+
+y = [Ub' * (D3 - mi')];
+y(1) = 0;
+y(2) = 0;
+y(3) = 0;
+y(4) = 0;
+y(5) = 0;
+
+xq = (Ub * y) + mi';
+
+D3 = reshape(D3, [96, 84]);
+
+figure(2); subplot(1, 3, 1); imagesc(D0); colormap gray;
+figure(2); subplot(1, 3, 2); imagesc(D1);
+figure(2); subplot(1, 3, 3); imagesc(D3);
 
 
