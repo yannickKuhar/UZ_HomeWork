@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+
+\title{UZ Povzetek}
+\author{Yannick Kuhar}
+\date{\today}
+
+\begin{document}
+
+\clearpage
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+
+\section{Image formation}
+
+\subsection{Film image}
+
+\v{C}e postavimo objekt pred film ne dobimo dobre slike. Dodamo bariero, ki blokira ve\v{c}ino \v{z}arkov zmanj\v{s}a zameglitev. Odprtina, ki prepu\v{s}\v{c}a \v{z}arke se imenuje \textbf{aperture}(\textit{ang.}). \\
+\\
+U\v{c}inki velikosti \textbf{apertureja}:
+\begin{itemize}
+\item \textbf{prevelik}, prepusti preve\v{c} svetlobe kar povzro\v{c}i zameglitev slike
+\item \textbf{premajhen}. prepusti premalo svetlobe kar povzro\v{c}i zameglitev slike
+\end{itemize}
+\
+V splo\v{s}nem sta oba ekstrema slaba. Te\v{z}vo povzroca na sploh majhno stevilo zarkov, ki zadanejo film in nastane temna slika. \\
+To odpravimo z dadajo le\v{c}e med objekt in film. Le\v{c}a fokusira \v{z}arke na film. To\v{c}ke na nekaterih razdalijah ostanejo fokusirane na nekatih pa zamegljene. \\
+Pri uporabi tanke le\v{c}e, to\v{c}ke na razlicnih globinah fokusirajo na razlicnih globinah slikovne raznine(\textit{ang.} \textbf{image plane}). \\
+\\
+\textbf{Depth of field} zardalija med \textbf{slikovnim ravninam} med katerimi je u\v{c}inek zameglitve dovolj majhen. Majhni \textbf{aperture} pove\v{c}a \textbf{depth of field}. \\
+\\
+\textbf{Field of view}(\textbf{FOV}) ($2 \times \phi$) je kotna mera prostora, ki ga zazna kamera. \\
+\\
+$\phi = tan^{-1}(\frac{d}{2f})$\\
+\\
+\textbf{Field of view}:
+\begin{itemize}
+\item majhen \textbf{focal length}($f$) prinese \v{s}irokokotno sliko
+\item visoko \textbf{focal length}($f$) prinese teleskopsko sliko
+\end{itemize}
+\
+\textbf{Aberacije}:
+\begin{itemize}
+\item \textbf{Chromatic aberration}, razli\v{c}ne valovne dolzine se lomijo pod razli\v{c}nimi koti in fokusirajo pod razli\v{c}nimi razdalijami
+\item \textbf{Spherical aberration}, sferi\v{c}ne le\v{c}e ne fokusirajo svetlobo perfektno, \v{z}arki blizje robu se fokusirajo bli\v{z}je kot \v{z}arki pri centru
+\end{itemize}
+
+\newpage
+
+\textbf{Vignetting} se zgodi, ko imamo ve\v{c} kot eno le\v{c}o v kameri. Fokusirani \v{z}arki iz prve(proti centru) le\v{c}e se lomijo preko druge. Ker so \v{z}arki iz prve usmerjeni proti centru se namo prseslikajo preko druge(\v{z}arki pod kotom se filtriranjo). To povzro\v{c}i temne kote.\\
+\\
+Pogosta nepravilnost je tudi t.i. \textbf{Radial distortion}(\textit{ang.}), ki se zgodi zaradi neprefektnosti le\v{c}.
+
+\subsection{Digital image}
+Namesto filma uporabimo matriko(tabelo) senzorjev. Diskretiziramo sliko v piksle in kvantiziramo svetlobo v intenzitetne nivoje.
+
+\subsection{CCD vs CMOS}
+\begin{itemize}
+\item v obeh fotoni povzro\v{c}ijo naboj na senzorjih
+\item \textbf{CCD} prebere naboj po principu \textbf{FIFO} in digitalizira
+\item \textbf{CMOS} digitalizira vsak piksel posebaj
+\item \textbf{CCD} slike so bolj\v{s}e kvalitete
+\item \textbf{CMOS} je cenej\v{s}i za izdelavo
+\end{itemize}
+\
+Zaradi osvetljenosti, ki je dolo\v{c}ena s strani zelene barve, uporabimo dvakrat toliko zelenih senzorjev kot modrih in rde\v{c}ih. \v{C}love\v{s}ki vid je bolj ob\v{c}utljiv na spremembe intenzitete kot na barvne spremembe.
+
+\newpage
+
+\section{Image processing 1}
+Binarne slike imajo samo dve mo\v{z}nosti intenzitete:
+\begin{itemize}
+\item \textbf{ospredje}(1)
+\item \textbf{ozadje}(0)
+\end{itemize}
+
+\section{Image tresholding}
+Spremenimo sliko v binarno masko. Spoznali smo tri na\v{c}ine:
+\begin{itemize}
+\item \textbf{single threshold} $F_T[i, j] = $
+$
+\begin{cases}
+	1, & \text{if } F[i, j] \geq T \\
+	0, & \text{sicer}
+\end{cases}
+$
+\item \textbf{two thresholds} $F_T[i, j] = $
+$
+\begin{cases}
+	1, & \text{if } T_1 \leq F[i, j] \leq T_2 \\
+	0, & \text{sicer}
+\end{cases}
+$
+\item \textbf{apply a classifier} $F_T[i, j] = $
+$
+\begin{cases}
+	1, & \text{if } F[i, j] \in Z \\
+	0, & \text{sicer}
+\end{cases}
+$
+\end{itemize}
+\
+Binarne slike lahko opi\v{s}emo z \textbf{bimodalnim histogramom}(ima le dva stolpca in predstavlja porazdelitev pikslov).
+
+\subsection{Globalna binarizacija}
+Najdi tak\v{s}en $T$, ki minimizira varianco med razredi, katere $T$ lo\v{c}uje. \\
+\\
+$\sigma^2_{within}(T) = n_1(T)\sigma^2_1 + n_2(T)\sigma^2_2$ \\
+\\
+$n_1(T) = |\{I_{(x, y)} < T\}|$, $n_2(T) = |\{I_{(x, y)} \geq T\}|$
+
+Oziroma druga\v{c}e maksimiziramo vmesen razred. \\
+\\
+$\sigma^2_{between}(T) = \sigma^2 - \sigma^2_{within}(T) = n_1(T)n_2(T)[\mu_1(T) - \mu_2(T)]^2$
+
+\newpage
+
+\subsection{Otsujev algoritem}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
