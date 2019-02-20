@@ -2,6 +2,8 @@
 
 \usepackage[pdftex]{graphicx}
 \usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 
 \title{UZ Povzetek}
 \author{Yannick Kuhar}
@@ -67,7 +69,7 @@ Namesto filma uporabimo matriko(tabelo) senzorjev. Diskretiziramo sliko v piksle
 \item \textbf{CMOS} je cenej\v{s}i za izdelavo
 \end{itemize}
 \
-Zaradi osvetljenosti, ki je dolo\v{c}ena s strani zelene barve, uporabimo dvakrat toliko zelenih senzorjev kot modrih in rde\v{c}ih. \v{C}love\v{s}ki vid je bolj ob\v{c}utljiv na spremembe intenzitete kot na barvne spremembe.
+Zaradi osvetljenosti, ki je dolo\v{c}ena s strani zelene barve, uporabimo dvakrat toliko zelenih senzorjev kot modrih in rde\v{c}ih. \v{C}love\v{s}ki vid je bolj ob\v{c}utljiv na spremembe intenzitete kot na barvne spremembe(\textbf{Bayer sensor}).
 
 \newpage
 
@@ -120,6 +122,197 @@ $\sigma^2_{between}(T) = \sigma^2 - \sigma^2_{within}(T) = n_1(T)n_2(T)[\mu_1(T)
 \newpage
 
 \subsection{Otsujev algoritem}
+
+\begin{algorithm}
+\caption{Otsu's algorithm}\label{euclid}
+\begin{algorithmic}[1]
+
+\Procedure{Otsu}{I}
+
+\State $\textit{nbins} \gets 256$
+\State $counts \gets myhist(I, nbins)$ \% Get histohram
+\State $\textit{p} \gets counts / sum(counts)$ \% Normalize the histohram
+\State $\sigma \gets zeros(nbins, 1)$
+
+\For{t = 1 : nbins}
+\State $qlow \gets sum(p(1:t))$
+\State $qhigh \gets sum(p(t + 1 : end))$
+\State $\mu_L \gets sum(p(1:t)$ $.*$ $(1:t)) / qlow$ 
+\State $\mu_H \gets sum(p(t + 1 : end)$ $.*$ $(t + 1 : nbins))$ $./$ $qhigh$
+\State $\sigma(t) \gets qlow * qhigh * (\mu_L - \mu_H) ^ 2$
+\EndFor
+
+\State $[\sim, threshold] \gets max(\sigma(:))$
+
+\Return threshold
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection*{Neformalno}
+Za vsak \textbf{treshold T} razdeli sliko na dva razreda. Izra\v{c}unaj $\sigma$ vmesnega razreda in jo shrani. Vrni tak $\sigma$, ki maksimizira razpr\v{s}enost vmesnega razreda.
+
+\subsection{Lokalna binarizacija}
+Ocenimo lokalni \textbf{treshold T} na oknu velikosti \textbf{W}: \\
+\\
+$T_W = \mu_W + k \times \sigma_W$ \\
+\\
+In to storimo na vsaki regiji. Postopek se imenuje \textbf{Niblack's algorithm}.
+
+\newpage
+
+\section{\v{C}i\v{s}\v{c}enje slik}
+\textbf{Tresholding} ne odstrani \v{s}uma z slik, zato potrebujemo dodatno procesiranje. To storimo z morfolo\v{s}kimi operatorji.
+
+\subsection{Morfologija}
+
+\subsubsection*{Structuring element}
+Je vsebina premikajo\v{c}ega okna s katerim se pomikamo po sliki. Na primer: \\
+ \[
+   SE =
+  \left[ {\begin{array}{ccccccccc}
+   0 & 1 & 0 \\
+   1 & 1 & 1 \\
+   0 & 1 & 0 \\
+  \end{array} } \right]
+\]
+
+\subsubsection*{Fitting \& Hitting}
+\begin{itemize}
+\item \textbf{Fit}, SE in regija imasta vse "1" istole\v{z}ne
+\item \textbf{Hit}, SE in regija imasta vsaj eno istole\v{z}no "1"
+\end{itemize}
+
+\subsubsection*{Erosion}
+Funkcijo slike \textbf{f} in \textbf{structuring element s} ozna\v{c}imo z $g = f \ominus s$
+oziroma: \\
+\\
+$g(x, y) = $
+$
+\begin{cases}
+	1, & \text{if } s \textbf{ fits } f \\
+	0, & \text{sicer}
+\end{cases}
+$
+
+\subsubsection*{Dilation}
+Funkcijo slike \textbf{f} in \textbf{structuring element s} ozna\v{c}imo z $g = f \oplus s$
+oziroma: \\
+\\
+$g(x, y) = $
+$
+\begin{cases}
+	1, & \text{if } s \textbf{ hits } f \\
+	0, & \text{sicer}
+\end{cases}
+$
+
+\subsubsection*{Combined operations}
+\begin{itemize}
+\item \textbf{Opening}, erosion in dilation, odstrani majhne objekte in ohrani grobe oblike
+\item \textbf{Closing}, dilation in erosion, napolni luknje in ohrani originalno obliko
+\end{itemize}
+
+\newpage
+
+\section{Ozna\v{c}evanje regij}
+Procesiramo sliko od leve proti desni, od zgoraj dol:
+\begin{enumerate}
+\item \v{C}e je vrednost trenutnega piksla je 1
+\begin{enumerate}
+\item \v{c}e je zgornji ali levi sosed 1 kopiraj oznako
+\item \v{c}e sta oba zgornji in levi 1 in imata enako oznako jo kopiraj
+\item \v{c}e imata razlicne oznake kopiraj levo in posidobi tabelo ekvivalentnih oznak
+\item sicer uporabi novo oznako
+\end{enumerate}
+\item ponovno ozna\v{c}i z najmanjsim stevilom ekvivalentnih oznak
+\end{enumerate}
+
+\section{Region descriptors}
+\v{Z}elimo tak\v{s}en \textbf{descriptor}, ki slika dve sliki z podobnim objektom blizu in z razli\v{c}nim objektom dale\v{c}.
+
+\section{Image processing 2}
+
+\subsection{Svetloba}
+Svetloba je elektromagnetska radiacija sestavljena iz ve\v{c} frekvenc. Lastnosti svetlobe so opisane v njenem spektru. Ljudje prepoznavamo svetlobo s pomo\v{c}jo deh tipov celic \textbf{cones} za barve(\textbf{R, G, B}) in \textbf{rods} za intenziteto.
+
+\subsection{Additive mixture model}
+Je klasi\v{c}en \textbf{RGB} sistem. Kjer \v{c}rni barvi dodajamo rde\v{c}o, modro in zeleno.
+
+\subsection{Subtractive models}
+Je \textbf{CMYK} model(\textbf{cyan, magenta, yellow, in key}).
+
+\newpage
+
+\subsection{Color spaces}
+Omogo\v{c}a reprodukcijo barv. Vsak prostor ima primarne barve in vsaka nova barva je utežena vsota primarnih barv. Razdalije med barvbami so evklidske.
+
+\subsection{HSV colorspace}
+Hue (barvnost), saturation (nasičenje), value (intenziteta), je nelinearen barvni prostor.
+
+\section{Podobnost barv z histogrami}
+Histogram je stolpi\v{c}ni diagram, ki meri nivoje inteanzitete npr: \\
+\\
+$h(i) =$ \v{s}t. pikslov v sliki z intenziteto $i$. \\
+$h(i) = card\{(u,v)$ $|$ $I(u,v) = i\}$ (\textbf{card} je funkcija, ki oceni vrednost) \\
+\\
+Lahko imamo tudi barvne histograme: \\
+\\
+$h(r, g, b) =$ \v{s}t. pikslov v sliki z barvo (r, g, b).
+
+\subsection{Normalizacija intenzitete}
+Intenziteta je vsebovana v vsakem brvnem kanalu. Mno\v{z}enje bsrve z skaljarjem spremeni intenziteto ampak ne barve. To pomeni, da lahko nozmaliziramo intenziteto(\textbf{I = R + B + G}) barve. Kromatska reprezentacija: \\
+\\
+$r = \frac{R}{R+B+G}$, $b = \frac{B}{R+B+G}$, $g = \frac{G}{R+B+G}$, $r + b + g = 1$ \\
+\\
+Zdaj lahko uporabimo 2D prostor(rg). Lahko pa tudi indirektno primerjamo slike tako, da primerjamo njihove histograme(Evklidska razdalija, Hellingerjeva razdalija, ...).
+
+\newpage
+
+\section{Filtriranje}
+Glavna naloga je reduciranje \v{s}uma v sliki.
+
+\subsection{Tipi \v{s}uma}
+\begin{itemize}
+\item \textbf{Sol in poper}, naklju\v{c}ne bele in \v{c}rne to\v{c}ke na sliki
+\item \textbf{Impulzivni \v{s}um} naklju\v{c}ne bele to\v{c}ke na sliki
+\item \textbf{Gausov \v{s}um} variacija intenzitete je vzor\v{c}ena normalno
+\end{itemize}
+
+\subsection{Poskusimo odstranit piksle}
+Piksli so podobni kot sosednji. Predpostavimo, da je \v{s}um \\ 
+\textbf{I.I.D(independent, identically distributed)}. \\
+Sedaj lahko izra\v{c}unamo bolj\v{s}o oceno intenzitete piksla tako, da ga zamenjamo z povpre\v{c}no intenziteto soseske pikslov. Predpostavimo, da imajo vsi piksli enako ute\v{z} in soseska velikosti 2k+1: \\
+\\
+$G[i, j] = \frac{1}{(2k+1)^2}\sum\limits_{u=-k}^k\sum\limits_{v=-k}^kF[i+u, j+v]$ \\
+\\
+Oziroma bolj splo\v{s}no, \v{c}e dodamo ute\v{z}i, ki niso enake: \\
+\\
+$G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i+u, j+v]$ \\
+\\
+Kjer so $H[u, v]$ neenake ute\v{z}i. \\
+\\
+Temu se re\v{c}e \textbf{cross-correlation} oz. \textbf{correlation filtering}($G = H \otimes F$), $H$ je okno in $F$ je slika.
+
+\subsection{Konvolucija kot korelacija}
+Izra\v{c}unamo konvolucijo z \textbf{cross-correlation}. Obrnemo filter v obe dimenzijah(horizontalno in vertikalno) in nato izvedemo \textbf{cross-correlation} in to ozna\v{c}imo $G = H \star F$ oziroma: \\
+\\
+$G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i-u, j-v]$
+
+\newpage
+
+\subsection{Convolution vs. Correlation}
+\begin{itemize}
+\item \textbf{Correlation} $G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i+u, j+v]$, $G = H \otimes F$
+\item \textbf{Convolution} $G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i-u, j-v]$,
+$G = H \star F$
+\end{itemize}
+\
+Za simetri\v{c}en filter $H[-u, -v] = H[u, v]$ velja  \textbf{correlation} $\equiv$ \textbf{convolution}
+
+\subsection{Linearni shift-invariant sistem}
+\textbf{Shift-invariant} pomeni enako obna\v{s}anje ne glede na pozicijo oz. izhod je odvisen le od lokalnega vzorca ne pa od koordinat.
 
 \end{document}
 
