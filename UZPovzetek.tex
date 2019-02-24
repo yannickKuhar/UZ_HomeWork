@@ -35,9 +35,9 @@ Pri uporabi tanke le\v{c}e, to\v{c}ke na razlicnih globinah fokusirajo na razlic
 \\
 \textbf{Depth of field} zardalija med \textbf{slikovnim ravninam} med katerimi je u\v{c}inek zameglitve dovolj majhen. Majhni \textbf{aperture} pove\v{c}a \textbf{depth of field}. \\
 \\
-\textbf{Field of view}(\textbf{FOV}) ($2 \times \phi$) je kotna mera prostora, ki ga zazna kamera. \\
+\textbf{Field of view}(\textbf{FOV}) ($2 \times \varphi$) je kotna mera prostora, ki ga zazna kamera. \\
 \\
-$\phi = tan^{-1}(\frac{d}{2f})$\\
+\indent $\varphi = tan^{-1}(\frac{d}{2f})$\\
 \\
 \textbf{Field of view}:
 \begin{itemize}
@@ -111,13 +111,13 @@ Binarne slike lahko opi\v{s}emo z \textbf{bimodalnim histogramom}(ima le dva sto
 \subsection{Globalna binarizacija}
 Najdi tak\v{s}en $T$, ki minimizira varianco med razredi, katere $T$ lo\v{c}uje. \\
 \\
-$\sigma^2_{within}(T) = n_1(T)\sigma^2_1 + n_2(T)\sigma^2_2$ \\
+\indent $\sigma^2_{within}(T) = n_1(T)\sigma^2_1 + n_2(T)\sigma^2_2$ \\
 \\
-$n_1(T) = |\{I_{(x, y)} < T\}|$, $n_2(T) = |\{I_{(x, y)} \geq T\}|$
-
+\indent $n_1(T) = |\{I_{(x, y)} < T\}|$, $n_2(T) = |\{I_{(x, y)} \geq T\}|$ \\
+\\
 Oziroma druga\v{c}e maksimiziramo vmesen razred. \\
 \\
-$\sigma^2_{between}(T) = \sigma^2 - \sigma^2_{within}(T) = n_1(T)n_2(T)[\mu_1(T) - \mu_2(T)]^2$
+\indent $\sigma^2_{between}(T) = \sigma^2 - \sigma^2_{within}(T) = n_1(T)n_2(T)[\mu_1(T) - \mu_2(T)]^2$
 
 \newpage
 
@@ -156,7 +156,7 @@ Za vsak \textbf{treshold T} razdeli sliko na dva razreda. Izra\v{c}unaj $\sigma$
 \subsection{Lokalna binarizacija}
 Ocenimo lokalni \textbf{treshold T} na oknu velikosti \textbf{W}: \\
 \\
-$T_W = \mu_W + k \times \sigma_W$ \\
+\indent $T_W = \mu_W + k \times \sigma_W$ \\
 \\
 In to storimo na vsaki regiji. Postopek se imenuje \textbf{Niblack's algorithm}.
 
@@ -188,7 +188,7 @@ Je vsebina premikajo\v{c}ega okna s katerim se pomikamo po sliki. Na primer: \\
 Funkcijo slike \textbf{f} in \textbf{structuring element s} ozna\v{c}imo z $g = f \ominus s$
 oziroma: \\
 \\
-$g(x, y) = $
+\indent $g(x, y) = $
 $
 \begin{cases}
 	1, & \text{if } s \textbf{ fits } f \\
@@ -200,7 +200,7 @@ $
 Funkcijo slike \textbf{f} in \textbf{structuring element s} ozna\v{c}imo z $g = f \oplus s$
 oziroma: \\
 \\
-$g(x, y) = $
+\indent $g(x, y) = $
 $
 \begin{cases}
 	1, & \text{if } s \textbf{ hits } f \\
@@ -254,17 +254,17 @@ Hue (barvnost), saturation (nasičenje), value (intenziteta), je nelinearen barv
 \section{Podobnost barv z histogrami}
 Histogram je stolpi\v{c}ni diagram, ki meri nivoje inteanzitete npr: \\
 \\
-$h(i) =$ \v{s}t. pikslov v sliki z intenziteto $i$. \\
-$h(i) = card\{(u,v)$ $|$ $I(u,v) = i\}$ (\textbf{card} je funkcija, ki oceni vrednost) \\
+\indent $h(i) =$ \v{s}t. pikslov v sliki z intenziteto $i$. \\
+\indent $h(i) = card\{(u,v)$ $|$ $I(u,v) = i\}$ (\textbf{card} je funkcija, ki oceni vrednost) \\
 \\
 Lahko imamo tudi barvne histograme: \\
 \\
-$h(r, g, b) =$ \v{s}t. pikslov v sliki z barvo (r, g, b).
+\indent $h(r, g, b) =$ \v{s}t. pikslov v sliki z barvo (r, g, b).
 
 \subsection{Normalizacija intenzitete}
 Intenziteta je vsebovana v vsakem brvnem kanalu. Mno\v{z}enje bsrve z skaljarjem spremeni intenziteto ampak ne barve. To pomeni, da lahko nozmaliziramo intenziteto(\textbf{I = R + B + G}) barve. Kromatska reprezentacija: \\
 \\
-$r = \frac{R}{R+B+G}$, $b = \frac{B}{R+B+G}$, $g = \frac{G}{R+B+G}$, $r + b + g = 1$ \\
+\indent $r = \frac{R}{R+B+G}$, $b = \frac{B}{R+B+G}$, $g = \frac{G}{R+B+G}$, $r + b + g = 1$ \\
 \\
 Zdaj lahko uporabimo 2D prostor(rg). Lahko pa tudi indirektno primerjamo slike tako, da primerjamo njihove histograme(Evklidska razdalija, Hellingerjeva razdalija, ...).
 
@@ -277,7 +277,7 @@ Glavna naloga je reduciranje \v{s}uma v sliki.
 \begin{itemize}
 \item \textbf{Sol in poper}, naklju\v{c}ne bele in \v{c}rne to\v{c}ke na sliki
 \item \textbf{Impulzivni \v{s}um} naklju\v{c}ne bele to\v{c}ke na sliki
-\item \textbf{Gausov \v{s}um} variacija intenzitete je vzor\v{c}ena normalno
+\item \textbf{Gaussov \v{s}um} variacija intenzitete je vzor\v{c}ena normalno
 \end{itemize}
 
 \subsection{Poskusimo odstranit piksle}
@@ -285,11 +285,11 @@ Piksli so podobni kot sosednji. Predpostavimo, da je \v{s}um \\
 \textbf{I.I.D(independent, identically distributed)}. \\
 Sedaj lahko izra\v{c}unamo bolj\v{s}o oceno intenzitete piksla tako, da ga zamenjamo z povpre\v{c}no intenziteto soseske pikslov. Predpostavimo, da imajo vsi piksli enako ute\v{z} in soseska velikosti 2k+1: \\
 \\
-$G[i, j] = \frac{1}{(2k+1)^2}\sum\limits_{u=-k}^k\sum\limits_{v=-k}^kF[i+u, j+v]$ \\
+\indent $G[i, j] = \frac{1}{(2k+1)^2}\sum\limits_{u=-k}^k\sum\limits_{v=-k}^kF[i+u, j+v]$ \\
 \\
 Oziroma bolj splo\v{s}no, \v{c}e dodamo ute\v{z}i, ki niso enake: \\
 \\
-$G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i+u, j+v]$ \\
+\indent $G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i+u, j+v]$ \\
 \\
 Kjer so $H[u, v]$ neenake ute\v{z}i. \\
 \\
@@ -298,7 +298,7 @@ Temu se re\v{c}e \textbf{cross-correlation} oz. \textbf{correlation filtering}($
 \subsection{Konvolucija kot korelacija}
 Izra\v{c}unamo konvolucijo z \textbf{cross-correlation}. Obrnemo filter v obe dimenzijah(horizontalno in vertikalno) in nato izvedemo \textbf{cross-correlation} in to ozna\v{c}imo $G = H \star F$ oziroma: \\
 \\
-$G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i-u, j-v]$
+\indent $G[i, j] = \sum\limits_{u=-k}^k\sum\limits_{v=-k}^kH[u, v]F[i-u, j-v]$
 
 \newpage
 
@@ -313,6 +313,128 @@ Za simetri\v{c}en filter $H[-u, -v] = H[u, v]$ velja  \textbf{correlation} $\equ
 
 \subsection{Linearni shift-invariant sistem}
 \textbf{Shift-invariant} pomeni enako obna\v{s}anje ne glede na pozicijo oz. izhod je odvisen le od lokalnega vzorca ne pa od koordinat.
+
+\subsection{Lastnosti konvolucije}
+\begin{itemize}
+\item linearnost, shift-invariant
+\item komutativnost: $f * g = g * f$
+\item asociativnost: $(f * g) * h = f * (g * h)$, posledica tega je da uporaba ve\v{c}filtrov je ekvivalentna uporabi enega $((f * b_1) * b_2) * b_3 = f * (b_1 * b_2 * b_3)$
+\item identiteta: enotni impulz $e = [..., 0, 0, 1, 0, 0, ...]$
+\item odvod: $\frac{\partial}{\partial x}(f * g) = (\frac{\partial}{\partial x}g) * f = (\frac{\partial}{\partial x} * f) * g$
+\end{itemize}
+
+\subsection{Gaussovo glajenje}
+Uporabimo \textbf{Gaussian kernel}: \\
+\\
+\indent $G_\sigma = \frac{1}{2\pi\sigma^2}e^{-\frac{(x^2 + y^2)}{2\sigma^2}}$ \\
+\\
+Piksli pri centru imajo ve\v{c}jo ute\v{z}. Filter je simetri\v{c}en glede na rotacijo(transponiranje ne spremeni ni\v{c}esar). Varianca $\sigma^2$ dolo\v{c}i mero glajenja.
+
+\newpage
+
+\subsection{U\v{c}inkovita implementacija}
+Izvedemo konvolucijo nad vsako vrstico posebaj z 1D kernelom: \\
+\\
+\indent $g(x) = \frac{1}{\sqrt{2\pi}\sigma}exp(-x^2 / (2\sigma^2))$ \\
+\\
+Nato izvedemo 1D konvolucijo nad vsakim stolpcem: \\
+\\
+\indent $g(y) = \frac{1}{\sqrt{2\pi}\sigma}exp(-y^2/(2\sigma^2))$ \\
+\\
+Ta lo\v{c}itev je mogo\v{c}a zaradi linearnosti, asociativnosti in komutativnosti konvolucije oz: \\
+\\
+\indent $g_x * (g_y * I) = (g_x * g_y) * I$
+
+\subsection{Robni pogoji filtriranja}
+Kernel presega robove slike. Kaj storimo na robovih? Uporabimo \v{s}tiri metode:
+\begin{itemize}
+\item \textbf{Crop}(black)
+\item \textbf{Bend} image
+\item \textbf{Replicate} edges
+\item \textbf{Mirror} image
+\end{itemize}
+
+\subsection{Konvolucija in spekter}
+Konvolucija dveh funkcij je ekvivalentna produktu njunih Fourierjevih transformacij(spekter): \\
+\\
+\indent $F(f * g) = F(f) \odot F(g)$ \\
+\\
+Konvolucija manipulira slikovni spekter bodisi poudari bodisi zmanj\v{s}a frekven\v{c}ni pass v sliki.
+
+\newpage
+
+\subsection{Ponovitev Fourierjeve transformacije}
+Signal je definiran ko vsota sinusov in cosinusov razli\v{c}nih frekvenc: \\
+\\
+\indent $f(x) = \sum\limits_n a_ncos(nx) + b_nsin(nx)$ \\
+\\
+\v{S}um je v resnici prisotnost visokih frekvenc. Odstranimo ga tako, da izvedemo t.i. \textbf{low-band pass} filter. Uporabimo lahko tudi t.i. \textbf{spatial box} filter vendar ta ima stranske u\v{c}inke. Najbolj primeren \textbf{low-band pass} filter je \textbf{Gaussov}.
+
+\subsection{Sharpening filter}
+$I * (
+  \left[ {\begin{array}{ccccccccc}
+   0 & 0 & 0 \\
+   0 & 2 & 0 \\
+   0 & 0 & 0 \\
+  \end{array} } \right]
+$ - $\frac{1}{9}$
+$
+  \left[ {\begin{array}{ccccccccc}
+   1 & 1 & 1 \\
+   1 & 1 & 1 \\
+   1 & 1 & 1 \\
+  \end{array} } \right]
+) = I_s$ \\
+\\
+$I_s$ je izostrena slika. Sharpening filter poudari razlike z lokalnim povpre\v{c}enjem.
+
+\subsection{Median filter}
+Je nelinearen filter. Osnovna ideja je zamenjati intenziteto piksla z mediano drse\v{c}ega okna. Pomembni lastnosti sta:
+\begin{itemize}
+\item Ne dodaja novih sivih nivojev v sliko
+\item odstrani impulzne \v{s}ume npr. \textbf{salt \& pepper}
+\end{itemize}
+
+\newpage
+
+\subsection{Filtering as template matching}
+Z metodami filtriranja lahko tudi i\v{s}\v{c}emo lokacio objekta na sliki. Template je lahko ve\v{c}ji ali manj\v{s}i kot slika zato moramo izvesti korelacijo za razli\v{c}ne velikosti slike. Vendar namesto templatea skaliramo vhod. U\v{c}inkovit na\v{c}in spreminjanja velikosti slik je t.i. \textbf{Slikovna piramida}.
+
+\subsubsection{Kako zmanj\v{s}amo sliko?}
+Naivni pristop je odstranitev vsakega drugega piksla. U\v{c}inku pravimo \textbf{Aliasing}. Pristo povzro\v{c}a te\v{z}ave saj spremeni objekte na sliki.
+
+\subsubsection{Prekrivanje (sampling and aliasing)}
+Zvezni signal diskretiziramo, izvedemo Fourierjevo transformacijo. Iz magnitudnega spektra izberemo eno kopijo in jo pretvorimo nazaj z inverzno Fourierjevo transformacijo(slika na Image processing 2 slide 68). \v{C}e \v{z}elimo rekonstruirat vse frekvence do $f$ potem moramo vzor\v{c}it signale z frekvenco enako vsaj $2f$. Na neki to\v{c}ki se za\v{c}nejo ponavljajo\v{c}e se frekvence spekrta prekrivat(aliasing).
+
+\subsubsection{Pravilno vzor\v{c}enje}
+Ko izvedemo t.i. sparse sampling moramo odstranit vsebino z visoko frekvnco. To storimo z Gaussovim filtrom. Na ta na\v{c}in ponavljajo\v{c}i se spektri vzor\v{c}enega signala se ne prekrivajo in ne poudarjajo napa\v{c}nih frekvenc. Tako prepre\v{c}imo aliasing.
+
+\newpage
+
+\subsection{Gaussova piramida}
+$G_0 = Image$ \\
+$G_1 = (G_0 * gaussian) \downarrow 2$ (smooth then subsample) \\
+$G_2 = (G_1 * gaussian) \downarrow 2$ (smooth then subsample) \\
+$G_3 = (G_2 * gaussian) \downarrow 2$ (smooth then subsample) \\
+$G_4 = (G_3 * gaussian) \downarrow 2$ (smooth then subsample) \\
+... \\
+\\
+Nov nivo dobimo od prej\v{s}njega tako, da gladimo z Gaussovim filtrom in naro vzor\v{c}imo. Gaussov filter uporabimo zarai naslednje lastnosti: \\
+\\
+$G(\sigma_1^2) *G(\sigma_2^2) = G(\sigma_1^2 + \sigma_2^2)$ \\
+\\
+Zelo dobro deluje z konvolucijo. Poleg tega je t.i. \textbf{low-band-pass filter}, zato dobimo nepotrebno reprezentcijo zgladene slike. Ni potrebe, da shranimo zgladeno sliko v polni rezoluciji(razlog za spremembo velikosti).
+
+\subsubsection{Zakaj piramida?}
+\begin{itemize}
+\item omogo\v{c}a u\v{c}inkovito implementacijo,
+\item omogo\v{c}a ve\v{c}stopenjsko detekcijo objektov,
+\item omogo\v{c}a ve\v{c}stopenjsko detekcijo robov, ...
+\end{itemize}
+
+\newpage
+
+\section{Odvodi slik in detekcija robov}
 
 \end{document}
 
